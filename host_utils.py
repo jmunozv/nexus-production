@@ -136,7 +136,8 @@ def run_sim(exe_path   : str,
 
   ## Runing locally
   if host == "local":
-    inst = [exe_path + "nexus", "-b", init_fname, "-n",
+    #inst = [exe_path + "nexus", "-b", init_fname, "-n",
+    inst = ["/Users/Javi/Development/nexus/bin/nexus", "-b", init_fname, "-n",
             str(num_evts), ">", log_fname]
     #os.system("source /Users/Javi/.profile")
     #os.system("source /Users/Javi/.setNEXUS")
