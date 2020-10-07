@@ -1,5 +1,4 @@
 import sys
-import os
 
 from datetime import datetime
 
@@ -18,25 +17,30 @@ def get_seed() -> int :
 
 ###
 def init_geometry_str(det_name : str) -> str :
+
+  if   ("NEXT100" == det_name): det_name += "_OPT"         # XXX To be deleted asap
+  elif ("FLEX"    in det_name): det_name  = "NEXT_FLEX"
+
   return f"/Geometry/RegisterGeometry {det_name}\n"
+
 
 
 ###
 def init_generator_str(evt_type : str) -> str :
   if (evt_type == "Xe136_bb0nu") or (evt_type == "Xe136_bb2nu"):
-    content = f"/Generator/RegisterGenerator DECAY0\n"
+    content = "/Generator/RegisterGenerator DECAY0\n"
 
   elif (evt_type == "Bi214") or (evt_type == "Tl208"):
-    content = f"/Generator/RegisterGenerator ION_GUN\n"
+    content = "/Generator/RegisterGenerator ION_GUN\n"
 
   elif evt_type == "Kr83":
-    content = f"/Generator/RegisterGenerator Kr83m\n"
+    content = "/Generator/RegisterGenerator Kr83m\n"
 
   elif evt_type == "Scintillation":
-    content = f"/Generator/RegisterGenerator SCINTGENERATOR\n"
+    content = "/Generator/RegisterGenerator SCINTGENERATOR\n"
 
   elif evt_type == "e-":
-    content = f"/Generator/RegisterGenerator SINGLE_PARTICLE\n"
+    content = "/Generator/RegisterGenerator SINGLE_PARTICLE\n"
 
   else:
     print(f"ERROR: No Init-Generator-String defined for {evt_type}.")
@@ -135,119 +139,13 @@ def make_init_file(det_name     : str,
 
 ###
 def config_geometry_str(det_name : str) -> str :
-    
-  # "NEXT_NEW"
-  if (det_name == "NEXT_NEW"):
-    content  = "/Geometry/NextNew/pressure            10. bar\n"
-    content += "/Geometry/NextNew/sc_yield            25510. 1/MeV\n"
-    content += "/Geometry/NextNew/elfield             true\n"
-    content += "/Geometry/NextNew/EL_field            12.83 kV/cm\n"
-
-    content += "/Geometry/PmtR11410/time_binning      1. nanosecond\n"
-    content += "/Geometry/SiPMSensl/time_binning      1. microsecond\n"
-
-    content += "/Geometry/Next100/shielding_vis       false\n"
-    content += "/Geometry/NextNew/table_vis           false\n"
-    content += "/Geometry/NextNew/ics_vis             false\n"
-    content += "/Geometry/NextNew/vessel_vis          false\n"
-    content += "/Geometry/NextNew/energy_plane_vis    false\n"
-    content += "/Geometry/NextNew/enclosure_vis       false\n"
-    content += "/Geometry/NextNew/tracking_plane_vis  false\n"
-    content += "/Geometry/KDB/visibility              false\n"
-    content += "/Geometry/SiPMSensl/visibility        false\n"
-    content += "/Geometry/PmtR11410/visibility        false\n"
-    content += "/Geometry/NextNew/field_cage_vis      false\n"
   
+  # Geometry Content
+  template_file = f"templates/{det_name}.geometry.config"
+  geometry_content = open(template_file).read()
+
+  return geometry_content  
     
-  ## "NEXT100"
-  elif (det_name == "NEXT100"):
-    content  = "/Geometry/Next100/pressure          15. bar\n"
-    content += "/Geometry/Next100/sc_yield          25510. 1/MeV\n"
-    content += "/Geometry/Next100/max_step_size     1.  mm\n"
-    content += "/Geometry/Next100/elfield           true\n"
-    content += "/Geometry/Next100/EL_field          16. kilovolt/cm\n"
-    content += "/Geometry/Next100/sipm_time_binning 1. microsecond\n"
-
-    content += "/Geometry/PmtR11410/time_binning  1. nanosecond\n"
-
-    content += "/Geometry/Next100/shielding_vis          false\n"
-    content += "/Geometry/Next100/vessel_vis             false\n"
-    content += "/Geometry/Next100/ics_vis                false\n"
-    content += "/Geometry/Next100/field_cage_vis         false\n"
-    content += "/Geometry/Next100/grids_vis              false\n"
-    content += "/Geometry/Next100/energy_plane_vis       false\n"
-    content += "/Geometry/Next100/tracking_plane_vis     false\n"
-    content += "/Geometry/GenericPhotosensor/visibility  false\n"
-    content += "/Geometry/PmtR11410/visibility           false\n"
-
-    
-  ## "NEXT_FLEX"
-  elif (det_name == "NEXT_FLEX"):
-    content  = "/Geometry/NextFlex/gas              enrichedXe\n"
-    content += "/Geometry/NextFlex/gas_pressure     15. bar\n"
-    content += "/Geometry/NextFlex/gas_temperature  300. kelvin\n"
-    content += "/Geometry/NextFlex/e_lifetime       12. ms\n"
-
-    content += "/Geometry/NextFlex/active_length      1204.95 mm\n"
-    content += "/Geometry/NextFlex/active_diam         984.0  mm\n"
-    content += "/Geometry/NextFlex/drift_transv_diff  1. mm/sqrt(cm)\n"
-    content += "/Geometry/NextFlex/drift_long_diff    .2 mm/sqrt(cm)\n"
-
-    content += "/Geometry/NextFlex/buffer_length      254.6 mm\n"
-
-    content += "/Geometry/NextFlex/cathode_transparency .98\n"
-    content += "/Geometry/NextFlex/anode_transparency   .88\n"
-    content += "/Geometry/NextFlex/gate_transparency    .88\n"
-
-    content += "/Geometry/NextFlex/el_gap_length    10.  mm\n"
-    content += "/Geometry/NextFlex/el_field_on      true\n"
-    content += "/Geometry/NextFlex/el_field_int     16. kilovolt/cm\n"
-    content += "/Geometry/NextFlex/el_transv_diff   0. mm/sqrt(cm)\n"
-    content += "/Geometry/NextFlex/el_long_diff     0. mm/sqrt(cm)\n"
-
-    content += "/Geometry/NextFlex/fc_wls_mat       TPB\n"
-
-    content += "/Geometry/NextFlex/fc_with_fibers   false\n"
-    content += "/Geometry/NextFlex/fiber_mat        EJ280\n"
-    content += "/Geometry/NextFlex/fiber_claddings  2\n"
-
-    content += "/Geometry/NextFlex/fiber_sensor_time_binning  1. microsecond\n"
-
-    content += "/Geometry/NextFlex/ep_with_PMTs         true\n"
-    content += "/Geometry/NextFlex/ep_with_teflon       false\n"
-    content += "/Geometry/NextFlex/ep_copper_thickness  12. cm\n"
-    content += "/Geometry/NextFlex/ep_wls_mat           TPB\n"
-
-    content += "/Geometry/PmtR11410/time_binning        25. ns\n"
-
-    content += "/Geometry/NextFlex/tp_copper_thickness   12.  cm\n"
-    content += "/Geometry/NextFlex/tp_teflon_thickness    2.1  mm\n"
-    content += "/Geometry/NextFlex/tp_teflon_hole_diam    7.  mm\n"
-    content += "/Geometry/NextFlex/tp_wls_mat            TPB\n"
-    content += "/Geometry/NextFlex/tp_sipm_anode_dist    13.1  mm\n"
-    content += "/Geometry/NextFlex/tp_sipm_sizeX         1.3  mm\n"
-    content += "/Geometry/NextFlex/tp_sipm_sizeY         1.3  mm\n"
-    content += "/Geometry/NextFlex/tp_sipm_sizeZ         2.0  mm\n"
-    content += "/Geometry/NextFlex/tp_sipm_pitchX        15.55 mm\n"
-    content += "/Geometry/NextFlex/tp_sipm_pitchY        15.55 mm\n"
-    content += "/Geometry/NextFlex/tp_sipm_time_binning   1.  microsecond\n"
-
-    content += "/Geometry/NextFlex/ics_thickness  12. cm\n"
-
-    content += "/Geometry/NextFlex/verbosity     false\n"
-    content += "/Geometry/NextFlex/fc_verbosity  false\n"
-    content += "/Geometry/NextFlex/ep_verbosity  false\n"
-    content += "/Geometry/NextFlex/tp_verbosity  false\n"
-
-    content += "/Geometry/NextFlex/fc_visibility            false\n"
-    content += "/Geometry/NextFlex/fiber_sensor_visibility  false\n"
-    content += "/Geometry/NextFlex/ep_visibility            false\n"
-    content += "/Geometry/PmtR11410/visibility              false\n"
-    content += "/Geometry/NextFlex/tp_visibility            false\n"
-    content += "/Geometry/NextFlex/tp_sipm_visibility       false\n"
-    content += "/Geometry/NextFlex/ics_visibility           false\n"
-
-  return content
 
 
 
@@ -258,9 +156,9 @@ def config_generator_str(det_name   : str,
 
   content = ""
 
-  if   (det_name == "NEXT_NEW"):  det_name_str = "NextNew"
-  elif (det_name == "NEXT100"):   det_name_str = "Next100"
-  elif (det_name == "NEXT_FLEX"): det_name_str = "NextFlex"
+  if   (det_name == "NEXT_NEW"): det_name_str = "NextNew"
+  elif (det_name == "NEXT100"):  det_name_str = "Next100"
+  elif ("FLEX" in det_name):     det_name_str = "NextFlex"
 
   evt_source_str = evt_source
 
@@ -300,14 +198,14 @@ def config_generator_str(det_name   : str,
   # Scintillation
   elif evt_type == "Scintillation":
     content += f"/Generator/ScintGenerator/region   {evt_source_str}\n"
-    content += f"/Generator/ScintGenerator/nphotons 10000\n"
+    content += "/Generator/ScintGenerator/nphotons 10000\n"
 
   # Single e-
   elif evt_type == "e-":
     content += f"/Generator/SingleParticle/region   {evt_source_str}\n"
-    content += f"/Generator/SingleParticle/particle e-\n"
-    content += f"/Generator/SingleParticle/min_energy  2.445 MeV\n"
-    content += f"/Generator/SingleParticle/max_energy  2.475 MeV\n"
+    content += "/Generator/SingleParticle/particle e-\n"
+    content += "/Generator/SingleParticle/min_energy  2.445 MeV\n"
+    content += "/Generator/SingleParticle/max_energy  2.475 MeV\n"
 
   return content
 

@@ -1,9 +1,7 @@
 import sys, os
 import subprocess
 
-from typing import List
 from typing import Tuple
-from typing import Dict
 
 
 PATHS = {
