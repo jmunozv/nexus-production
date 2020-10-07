@@ -31,7 +31,7 @@ EXEC_PATH       = "~/Development/nexus/bin/"
 try:
     config_fname = sys.argv[1]
 except IndexError:
-    print("\nUsage: python generateLightTable.py config_file.json\n")
+    print("\nUsage: python nexus-production.py config_file.json\n")
     sys.exit()
 
 with open(config_fname) as config_file:

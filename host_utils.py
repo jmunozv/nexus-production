@@ -137,27 +137,31 @@ def run_sim(exe_path   : str,
   ## Runing locally
   if host == "local":
     #inst = [exe_path + "nexus", "-b", init_fname, "-n",
-    inst = ["/Users/Javi/Development/nexus/bin/nexus", "-b", init_fname, "-n",
-            str(num_evts), ">", log_fname]
-    #os.system("source /Users/Javi/.profile")
-    #os.system("source /Users/Javi/.setNEXUS")
+    inst = ["/Users/Javi/Development/nexus/bin/nexus", "-b",
+            init_fname, "-n", str(num_evts), ">", log_fname]
     my_env = os.environ.copy()
     subprocess.run(inst, env=my_env)
-        
+
+    #os.system("source /Users/Javi/.zshrc")
+    #os.system("source /Users/Javi/.setDEV")
+    #os.system("source /Users/Javi/.setNEXUS")
+    #inst = f"{exe_path}nexus -b {init_fname} -n {num_evts} > {log_fname}"
+    #os.system(inst)
+
+
+  ## Runing in HARVARD queue system
+  elif host == "harvard":
+    script_fname = "sim.slurm"
+    #exe_path = "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
+    make_harvard_script(script_fname, exe_path, init_fname, log_fname, num_evts)
+    os.system(f"sbatch {script_fname}")
+    
 
   ## Runing in MAJORANA queue system
   elif host == "majorana":
     script_fname = "sim.script"
     make_majorana_script(script_fname, exe_path, init_fname, log_fname, num_evts)
     os.system(f"qsub -N tst {script_fname}")
-    
-
-  ## Runing in HARVARD queue system
-  elif host == "harvard":
-    script_fname = "sim.slurm"
-    exe_path = "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
-    make_harvard_script(script_fname, exe_path, init_fname, log_fname, num_evts)
-    os.system(f"sbatch {script_fname}")
     
 
   # No other machine is supported yet
