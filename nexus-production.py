@@ -4,7 +4,7 @@ import sys, os, json
 
 from host_utils import get_host_name
 from host_utils import run_sim
-#from host_utils import get_paths
+from host_utils import get_exec_path
 
 from sim_utils  import make_init_file
 from sim_utils  import make_config_file
@@ -20,8 +20,6 @@ VALID_EVT_TYPES = ["Xe136_bb0nu", "Xe136_bb2nu", "Bi214", "Tl208",
 # (Type scintillation corresponds to 1e4 photons)
 
 VALID_SIM_MODES = ["fast", "full"]
-
-EXEC_PATH       = "~/Development/nexus/bin/"
 
 
 
@@ -69,6 +67,9 @@ if not os.path.isdir(config_path): os.makedirs(config_path)
 if not os.path.isdir(log_path): os.makedirs(log_path)
 if not os.path.isdir(dst_path): os.makedirs(dst_path)
 
+# Executable path
+exec_path = get_exec_path()
+
 # Verbosing
 if verbosity:
   print()
@@ -81,7 +82,7 @@ if verbosity:
   print(f"Number of dsts  : {num_dsts}")
   print(f"Initial dst id  : {ini_dst_id}")
   print(f"Output PATH     : {output_path}")
-  print(f"Executable PATH : {EXEC_PATH}")
+  print(f"Executable PATH : {exec_path}")
 
 
 
@@ -106,7 +107,7 @@ for idx in range(num_dsts):
     dst_fname    = dst_path    + base_fname + '.next'
 
     # Making configuration files
-    make_init_file  (det_name, EXEC_PATH, init_fname, config_fname,
+    make_init_file  (det_name, exec_path, init_fname, config_fname,
                      evt_type, sim_mode)
 
     make_config_file(det_name, config_fname, dst_fname, evt_type,
@@ -122,7 +123,7 @@ for idx in range(num_dsts):
         print(f"  Dst file:    {dst_fname}.h5")
 
     # Running the simulation
-    run_sim(EXEC_PATH, init_fname, log_fname, evts_dst)
+    run_sim(exec_path, init_fname, log_fname, evts_dst)
 
 
 

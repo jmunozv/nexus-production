@@ -70,6 +70,19 @@ def get_paths() -> Tuple[str, str, str, str] :
 
 
 ###
+def get_exec_path() -> str :
+
+  ## Getting local host
+  host = get_host_name()
+
+  if (host == "local"): return "/Users/Javi/Development/nexus/bin/"
+  if (host == "harvard"): return "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
+  if (host == "majorana"): return "/home/jmunoz/Development/nexus/bin/"
+  if (host == "neutrinos"): return "/Users/Javi/Development/nexus/bin/"
+
+
+
+###
 def make_majorana_script(script_fname : str,
                          exe_path     : str,
                          init_fname   : str,
