@@ -204,8 +204,8 @@ def config_generator_str(det_name   : str,
   elif evt_type == "e-":
     content += f"/Generator/SingleParticle/region   {evt_source_str}\n"
     content += "/Generator/SingleParticle/particle e-\n"
-    content += "/Generator/SingleParticle/min_energy  2.445 MeV\n"
-    content += "/Generator/SingleParticle/max_energy  2.475 MeV\n"
+    content += "/Generator/SingleParticle/min_energy  2.458 MeV\n"
+    content += "/Generator/SingleParticle/max_energy  2.458 MeV\n"
 
   return content
 
