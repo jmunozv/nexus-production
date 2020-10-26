@@ -17,7 +17,7 @@ VALID_DETECTORS = ["NEXT_NEW", "FLEX_NEW", "NEXT_FLEX",
 
 VALID_EVT_TYPES = ["Xe136_bb0nu", "Xe136_bb2nu", "Bi214", "Tl208",
                    "Kr83", "Scintillation", "e-"]
-# (Type scintillation corresponds to 1e4 photons)
+# (Type "Scintillation" corresponds to 1e4 photons)
 
 VALID_SIM_MODES = ["fast", "full"]
 

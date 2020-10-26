@@ -1,31 +1,6 @@
 import sys, os
 import subprocess
 
-from typing import Tuple
-
-
-PATHS = {
-  "local": {
-    "exe_path" : "/Users/Javi/Development/nexus/",
-    "base_path": "/Users/Javi/Development/nexus-production-test/"
-  },
-
-  "harvard": {
-    "exe_path" : "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/",
-    "base_path": "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/FLEX100/201005/e-/"
-  },
-
-  "majorana": {
-    "exe_path" : "/home/jmunoz/Development/nexus/bin/",
-    "base_path": "/home/jmunoz/Development/nexus-production-test/"
-  },
-
-  "neutrinos": {
-    "exe_path" : "/Users/Javi/Development/nexus/",
-    "base_path": "/Users/Javi/Development/nexus-production-test/"
-  }
-}
-
 
 
 ###
@@ -38,32 +13,6 @@ def get_host_name() -> str :
   elif  "harvard"   in local_host: my_host = "harvard"
 
   return my_host
-
-
-
-###
-def get_paths() -> Tuple[str, str, str, str] :
-
-  ## Getting local host
-  host = get_host_name()
-
-  # Getting PATHS of current host
-  exe_path  = PATHS[host]["exe_path"]
-  base_path = PATHS[host]["base_path"]
-
-  if not os.path.isdir(base_path): os.makedirs(base_path)
-
-  # Making working PATHs
-  config_path = base_path + 'config/'
-  if not os.path.isdir(config_path): os.makedirs(config_path)
-
-  log_path = base_path    + 'log/'
-  if not os.path.isdir(log_path): os.makedirs(log_path)
-
-  dst_path = base_path    + 'dst/'
-  if not os.path.isdir(dst_path): os.makedirs(dst_path)
-
-  return exe_path, config_path, log_path, dst_path
 
 
 
