@@ -87,8 +87,10 @@ def make_harvard_script(script_fname : str,
   content += "source /n/home11/jmunozv/.bashrc\n"
   content += "source /n/home11/jmunozv/.setNEXUS\n"
 
-  content += f"mv {tmp_log_fname} {log_fname}\n"
-  content += f"mv {tmp_dst_fname} {dst_fname}\n"
+  content += f"{exe_path}nexus -b {init_fname} -n {num_evts} > {tmp_log_fname}\n"
+
+  content += f"mv {tmp_log_fname}    {log_fname}\n"
+  content += f"mv {tmp_dst_fname}.h5 {dst_fname}.h5\n"
 
   script_file = open(script_fname, 'w')
   script_file.write(content)
