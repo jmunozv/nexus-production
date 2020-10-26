@@ -64,8 +64,8 @@ dst_path    = output_path + '/dst/'
 
 if not os.path.isdir(output_path): os.makedirs(output_path)
 if not os.path.isdir(config_path): os.makedirs(config_path)
-if not os.path.isdir(log_path): os.makedirs(log_path)
-if not os.path.isdir(dst_path): os.makedirs(dst_path)
+if not os.path.isdir(log_path):    os.makedirs(log_path)
+if not os.path.isdir(dst_path):    os.makedirs(dst_path)
 
 # Executable path
 exec_path = get_exec_path()
@@ -123,4 +123,4 @@ for idx in range(num_dsts):
         print(f"  Dst file:    {dst_fname}.h5")
 
     # Running the simulation
-    run_sim(exec_path, init_fname, log_fname, evts_dst)
+    run_sim(exec_path, init_fname, dst_fname, log_fname, evts_dst)

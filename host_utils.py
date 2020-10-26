@@ -30,6 +30,13 @@ def get_exec_path() -> str :
 
 
 ###
+def give_tmp_harvard_path(fname : str) -> str :
+  tmp_path = "/n/holyscratch01/guenette_lab/Users/jmunozv/"
+  return tmp_path + fname.split("/")[-1]
+
+
+
+###
 def make_majorana_script(script_fname : str,
                          exe_path     : str,
                          init_fname   : str,
@@ -59,9 +66,13 @@ def make_majorana_script(script_fname : str,
 def make_harvard_script(script_fname : str,
                         exe_path     : str,
                         init_fname   : str,
+                        dst_fname    : str,
                         log_fname    : str,
                         num_evts     : int
                        )            -> None :
+
+  tmp_log_fname = give_tmp_harvard_path(log_fname)
+  tmp_dst_fname = give_tmp_harvard_path(dst_fname)
 
   content  = "#!/bin/bash\n"
 
@@ -76,7 +87,8 @@ def make_harvard_script(script_fname : str,
   content += "source /n/home11/jmunozv/.bashrc\n"
   content += "source /n/home11/jmunozv/.setNEXUS\n"
 
-  content += f"{exe_path}nexus -b {init_fname} -n {num_evts} > {log_fname}\n"
+  content += f"mv {tmp_log_fname} {log_fname}\n"
+  content += f"mv {tmp_dst_fname} {dst_fname}\n"
 
   script_file = open(script_fname, 'w')
   script_file.write(content)
@@ -87,6 +99,7 @@ def make_harvard_script(script_fname : str,
 ###
 def run_sim(exe_path   : str,
             init_fname : str,
+            dst_fname  : str,
             log_fname  : str,
             num_evts   : int
            )          -> None :
@@ -113,7 +126,7 @@ def run_sim(exe_path   : str,
   elif host == "harvard":
     script_fname = "sim.slurm"
     #exe_path = "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
-    make_harvard_script(script_fname, exe_path, init_fname, log_fname, num_evts)
+    make_harvard_script(script_fname, exe_path, init_fname, dst_fname, log_fname, num_evts)
     os.system(f"sbatch {script_fname}")
     
 

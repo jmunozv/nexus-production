@@ -2,6 +2,10 @@ import sys
 
 from datetime import datetime
 
+from host_utils import get_host_name
+from host_utils import give_tmp_harvard_path
+
+
 
 STORE_OPT_PARTICLES = False
 
@@ -248,6 +252,9 @@ def make_config_file(det_name      : str,
                      sim_mode      : str,
                      first_evt_idx : int
                     )             -> None :
+
+  if get_host_name() == "harvard":
+    dst_fname = give_tmp_harvard_path(dst_fname)
 
   content = f'''### GEOMETRY
 {config_geometry_str(det_name)}
