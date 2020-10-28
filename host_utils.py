@@ -22,9 +22,9 @@ def get_exec_path() -> str :
   ## Getting local host
   host = get_host_name()
 
-  if (host == "local"): return "/Users/Javi/Development/nexus/bin/"
-  if (host == "harvard"): return "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
-  if (host == "majorana"): return "/home/jmunoz/Development/nexus/bin/"
+  if (host == "local"):     return "/Users/Javi/Development/nexus/bin/"
+  if (host == "harvard"):   return "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
+  if (host == "majorana"):  return "/home/jmunoz/Development/nexus/bin/"
   if (host == "neutrinos"): return "/Users/Javi/Development/nexus/bin/"
 
 
@@ -111,17 +111,9 @@ def run_sim(exe_path   : str,
 
   ## Runing locally
   if host == "local":
-    #inst = [exe_path + "nexus", "-b", init_fname, "-n",
-    inst = ["/Users/Javi/Development/nexus/bin/nexus", "-b",
-            init_fname, "-n", str(num_evts), ">", log_fname]
+    inst = [exe_path + "nexus", "-b", init_fname, "-n", str(num_evts)]
     my_env = os.environ.copy()
-    subprocess.run(inst, env=my_env)
-
-    #os.system("source /Users/Javi/.zshrc")
-    #os.system("source /Users/Javi/.setDEV")
-    #os.system("source /Users/Javi/.setNEXUS")
-    #inst = f"{exe_path}nexus -b {init_fname} -n {num_evts} > {log_fname}"
-    #os.system(inst)
+    subprocess.run(inst, env=my_env, stdout=open(log_fname, 'w'))
 
 
   ## Runing in HARVARD queue system
