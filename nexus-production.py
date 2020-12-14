@@ -16,6 +16,7 @@ VALID_DETECTORS = ["NEXT_NEW", "FLEX_NEW", "NEXT_FLEX",
                    "FLEX100_M10", "FLEX100_M12", "FLEX100_D3_M2_O6",
                    "FLEX100_M2_O6", "FLEX100_M4_O6",
                    "FLEX100_M6_O6", "FLEX100_M8_O6",
+                   "FLEX100_M6_O4", "FLEX100_M6_O8",
                    "DEMOpp-Run5", "DEMOpp-Run7"]
 
 VALID_EVT_TYPES = ["Xe136_bb0nu", "Xe136_bb2nu", "Bi214", "Tl208",
