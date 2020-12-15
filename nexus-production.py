@@ -11,20 +11,42 @@ from sim_utils  import make_config_file
 
 #################### GENERALITIES ####################
 
-VALID_DETECTORS = ["NEXT_NEW", "FLEX_NEW", "NEXT_FLEX",
-                   "NEXT100", "FLEX100", "FLEX100_7_5",
-                   "FLEX100_M10", "FLEX100_M12",
-                   "FLEX100_D3_M2_O6", "FLEX100_M2_O6",
-                   "FLEX100_M4_O6", "FLEX100_M6_O6", "FLEX100_M8_O6",
-                   "FLEX100_M6_O4", "FLEX100_M6_O8",
-                   "FLEX100F_M6_O6",
-                   "DEMOpp-Run5", "DEMOpp-Run7"]
+VALID_DETECTORS = ["NEXT_NEW",                  # NEXT_NEW detector
+                   "FLEX_NEW",                  # FLEX with NEW dimensions (ANODE: grid instead of plate)
+                   "NEXT_FLEX",                 #
+                   "NEXT100",                   # NEXT100 detector (initial config)
+                   "FLEX100",                   # FLEX with NEXT100 initial config (To be checked)
+                   "FLEX100_7_5",               # (To be checked)
+                   "FLEX100_M10",               # (To be checked)
+                   "FLEX100_M12",               # (To be checked)
+                   "FLEX100_D3_M2_O6",          # Dist: 3mm   MaskThickn: 2mm  MaskHoleDiam: 6mm  Pitch: 15.3mm
+                   "FLEX100_M2_O6",             # Dist: 15mm  MaskThickn: 2mm  MaskHoleDiam: 6mm  Pitch: 15.3mm
+                   "FLEX100_M4_O6",             # Dist: 15mm  MaskThickn: 4mm  MaskHoleDiam: 6mm  Pitch: 15.3mm
+                   "FLEX100_M6_O6",             # Dist: 15mm  MaskThickn: 6mm  MaskHoleDiam: 6mm  Pitch: 15.3mm
+                   "FLEX100_M8_O6",             # Dist: 15mm  MaskThickn: 8mm  MaskHoleDiam: 6mm  Pitch: 15.3mm
+                   "FLEX100_M6_O4",             # Dist: 15mm  MaskThickn: 6mm  MaskHoleDiam: 4mm  Pitch: 15.3mm
+                   "FLEX100_M6_O8",             # Dist: 15mm  MaskThickn: 6mm  MaskHoleDiam: 8mm  Pitch: 15.3mm
+                   "FLEX100_D3_M2_O6_P10",      # Dist: 3mm   MaskThickn: 2mm  MaskHoleDiam: 6mm  Pitch: 10.0mm
+                   "FLEX100_M6_O6_P10",         # Dist: 15mm  MaskThickn: 6mm  MaskHoleDiam: 6mm  Pitch: 10.0mm
+                   "FLEX100F_M6_O6",            # FLEX100_M6_O6 + fibers (No PMTs)
+                   "FLEX100F_M6_O6_CathTeflon", # FLEX100_M6_O6 + fibers (No PMTs) + Teflon in CATHODE
+                   "DEMOpp-Run5",               # DEMOpp-Run5 detector
+                   "DEMOpp-Run7"                # DEMOpp-Run7 detector
+                  ]
 
-VALID_EVT_TYPES = ["Xe136_bb0nu", "Xe136_bb2nu", "Bi214", "Tl208",
-                   "Kr83", "Scintillation", "e-"]
-# (Type "Scintillation" corresponds to 1e4 photons)
+VALID_EVT_TYPES = ["Xe136_bb0nu",   
+                   "Xe136_bb2nu",
+                   "Bi214",
+                   "Tl208",
+                   "Kr83",
+                   "Scintillation", # (1e4 photons)
+                   "e-"
+                  ]
 
-VALID_SIM_MODES = ["fast", "full"]
+
+VALID_SIM_MODES = ["fast",  # Fast simulation (no optical photons)
+                   "full"   # Full simulation
+                  ]
 
 
 
