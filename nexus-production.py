@@ -12,6 +12,7 @@ from sim_utils  import make_config_file
 #################### GENERALITIES ####################
 
 VALID_DETECTORS = ["NEXT_NEW",                  # NEXT_NEW detector
+                   "NEXT_NEW_PE",               # NEXT_NEW with PhotoElectric effect
                    "FLEX_NEW",                  # FLEX with NEW dimensions (ANODE: grid instead of plate)
                    "NEXT_FLEX",                 #
                    "NEXT100",                   # NEXT100 detector (initial config)

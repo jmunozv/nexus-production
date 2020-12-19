@@ -22,9 +22,10 @@ def get_seed() -> int :
 ###
 def init_geometry_str(det_name : str) -> str :
 
-  if   ("NEXT100" == det_name): det_name += "_OPT"         # XXX To be deleted asap
-  elif ("FLEX"    in det_name): det_name  = "NEXT_FLEX"
-  elif ("DEMO"    in det_name): det_name  = "NEXT_DEMO"
+  if   ("NEXT100"     == det_name): det_name += "_OPT"         # XXX To be deleted asap
+  elif ("FLEX"        in det_name): det_name  = "NEXT_FLEX"
+  elif ("DEMO"        in det_name): det_name  = "NEXT_DEMO"
+  elif ("NEXT_NEW_PE" == det_name): det_name  = "NEXT_NEW"
 
   return f"/Geometry/RegisterGeometry {det_name}\n"
 
@@ -161,10 +162,10 @@ def config_generator_str(det_name   : str,
 
   content = ""
 
-  if   (det_name == "NEXT_NEW"): det_name_str = "NextNew"
-  elif (det_name == "NEXT100"):  det_name_str = "Next100"
-  elif ("FLEX" in det_name):     det_name_str = "NextFlex"
-  elif ("DEMO" in det_name):     det_name_str = "NextDemo"
+  if   ("NEXT_NEW"in det_name): det_name_str = "NextNew"
+  elif ("NEXT100" in det_name): det_name_str = "Next100"
+  elif ("FLEX"    in det_name): det_name_str = "NextFlex"
+  elif ("DEMO"    in det_name): det_name_str = "NextDemo"
 
   evt_source_str = evt_source
 
