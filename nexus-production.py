@@ -41,7 +41,8 @@ VALID_EVT_TYPES = ["Xe136_bb0nu",
                    "Tl208",
                    "Kr83",
                    "Scintillation", # (1e4 photons)
-                   "e-"
+                   "e-",            # Default energy: 2458 keV (Xe136 Qbb) 
+                   "e+e-"           # Total     Ekin: 1592 keV (= Tl double scape peak)
                   ]
 
 

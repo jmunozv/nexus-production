@@ -48,6 +48,9 @@ def init_generator_str(evt_type : str) -> str :
   elif evt_type == "e-":
     content = "/Generator/RegisterGenerator SINGLE_PARTICLE\n"
 
+  elif evt_type == "e+e-":
+    content = "/Generator/RegisterGenerator E+E-PAIR\n"
+
   else:
     print(f"ERROR: No Init-Generator-String defined for {evt_type}.")
     sys.exit()
@@ -65,10 +68,14 @@ def init_actions_str(evt_type : str) -> str :
   # Event action
   if ((evt_type == "Xe136_bb0nu") or (evt_type == "Xe136_bb2nu") or
       (evt_type == "Bi214")       or (evt_type == "Tl208")       or
-      (evt_type == "Kr83")        or (evt_type == "e-")):
+      (evt_type == "Kr83")        or (evt_type == "e-")          or
+      (evt_type == "e+e-")):
     content += "/Actions/RegisterEventAction    DEFAULT\n"
+
+  
   elif (evt_type == "Scintillation"):
     content += "/Actions/RegisterEventAction    SAVE_ALL\n"
+  
   else:
     print (f"No EventAction defined for evt_type: {evt_type}")
     exit(1)
@@ -213,6 +220,12 @@ def config_generator_str(det_name   : str,
     content += "/Generator/SingleParticle/particle e-\n"
     content += "/Generator/SingleParticle/min_energy  2.458 MeV\n"
     content += "/Generator/SingleParticle/max_energy  2.458 MeV\n"
+
+  # Pair production
+  elif evt_type == "e+e-":
+    content += f"/Generator/ElecPositronPair/region     {evt_source_str}\n"
+    content += "/Generator/ElecPositronPair/min_energy  1592. keV\n"
+    content += "/Generator/ElecPositronPair/max_energy  1592. keV\n"
 
   return content
 
