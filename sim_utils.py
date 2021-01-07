@@ -247,6 +247,7 @@ def config_physics_str(sim_mode : str) -> str :
     content  += f"/PhysicsList/Nexus/clustering          {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/drift               {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/electroluminescence {opt_procs}\n"
+    content  +=  "/process/optical/processActivation Cerenkov false \n"
 
   else:
     opt_procs = True
@@ -254,6 +255,7 @@ def config_physics_str(sim_mode : str) -> str :
     content  += f"/PhysicsList/Nexus/clustering          {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/drift               {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/electroluminescence {opt_procs}\n"
+    content  +=  "/process/optical/processActivation Cerenkov false \n"
 
   return content
 
