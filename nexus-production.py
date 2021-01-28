@@ -32,7 +32,8 @@ VALID_DETECTORS = ["NEXT_NEW",                  # NEXT_NEW detector
                    "FLEX100F_M6_O6",            # FLEX100_M6_O6 + fibers (No PMTs)
                    "FLEX100F_M6_O6_CathTeflon", # FLEX100_M6_O6 + fibers (No PMTs) + Teflon in CATHODE
                    "DEMOpp-Run5",               # DEMOpp-Run5 detector
-                   "DEMOpp-Run7"                # DEMOpp-Run7 detector
+                   "DEMOpp-Run7",               # DEMOpp-Run7 detector
+                   "DEMOpp-Run8"                # DEMOpp-Run8 detector
                   ]
 
 VALID_EVT_TYPES = ["Xe136_bb0nu",   
