@@ -118,6 +118,11 @@ def run_sim(exe_path   : str,
 
   ## Runing in HARVARD queue system
   elif host == "harvard":
+
+    # Limit the maximum number of jobt to run at the same time
+    while int(os.popen('squeue -u $USER | wc -l').read()) > 400:
+      sleep(30)
+
     script_fname = "sim.slurm"
     #exe_path = "/n/holystore01/LABS/guenette_lab/Users/jmunozv/Development/nexus/bin/"
     make_harvard_script(script_fname, exe_path, init_fname, dst_fname, log_fname, num_evts)
