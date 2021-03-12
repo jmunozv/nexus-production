@@ -40,6 +40,7 @@ VALID_EVT_TYPES = ["Xe136_bb0nu",
                    "Xe136_bb2nu",
                    "Bi214",
                    "Tl208",
+                   "Cs137",
                    "Kr83",
                    "Scintillation", # (1e4 photons)
                    "e-",            # Default energy: 2458 keV (Xe136 Qbb) 

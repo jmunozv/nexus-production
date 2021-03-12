@@ -6,8 +6,10 @@ from host_utils import get_host_name
 from host_utils import give_tmp_harvard_path
 
 
-
 STORE_OPT_PARTICLES = False
+
+# Setting the event energy threshold for an event to be stored
+ENERGY_THRESHOLD = 0.5
 
 
 ###
@@ -36,8 +38,9 @@ def init_generator_str(evt_type : str) -> str :
   if (evt_type == "Xe136_bb0nu") or (evt_type == "Xe136_bb2nu"):
     content = "/Generator/RegisterGenerator DECAY0\n"
 
-  elif (evt_type == "Bi214") or (evt_type == "Tl208"):
-    content = "/Generator/RegisterGenerator ION_GUN\n"
+  elif (evt_type == "Bi214") or (evt_type == "Tl208") or \
+       (evt_type == "Cs137"):
+    content = "/Generator/RegisterGenerator ION\n"
 
   elif evt_type == "Kr83":
     content = "/Generator/RegisterGenerator Kr83m\n"
@@ -60,7 +63,8 @@ def init_generator_str(evt_type : str) -> str :
 
 
 ###
-def init_actions_str(evt_type : str) -> str :
+def init_actions_str(evt_type : str,
+                     sim_mode : str) -> str :
 
   # Run action
   content  = "/Actions/RegisterRunAction      DEFAULT\n"
@@ -68,6 +72,7 @@ def init_actions_str(evt_type : str) -> str :
   # Event action
   if ((evt_type == "Xe136_bb0nu") or (evt_type == "Xe136_bb2nu") or
       (evt_type == "Bi214")       or (evt_type == "Tl208")       or
+      (evt_type == "Cs137")       or
       (evt_type == "Kr83")        or (evt_type == "e-")          or
       (evt_type == "e+e-")):
     content += "/Actions/RegisterEventAction    DEFAULT\n"
@@ -87,7 +92,8 @@ def init_actions_str(evt_type : str) -> str :
     content += "/Actions/RegisterTrackingAction DEFAULT\n"
 
   # Stepping Action
-  content += "/Actions/RegisterSteppingAction ANALYSIS\n"
+  if sim_mode == 'full':
+    content += "/Actions/RegisterSteppingAction ANALYSIS\n"
 
   return content
 
@@ -135,7 +141,7 @@ def make_init_file(det_name     : str,
 ### GENERATOR
 {init_generator_str(evt_type)}
 ### ACTIONS
-{init_actions_str(evt_type)}
+{init_actions_str(evt_type, sim_mode)}
 ### PHYSICS
 {init_physics_str(sim_mode)}
 ### EXTRA CONFIGURATION
@@ -191,19 +197,20 @@ def config_generator_str(det_name   : str,
 
     content += f"/Generator/Decay0Interface/Xe136DecayMode {dec_mode}\n"
     content += "/Generator/Decay0Interface/inputFile none\n"
-    content += "/Generator/Decay0Interface/EnergyThreshold 2.3 MeV\n"
+    content += f"/Generator/Decay0Interface/EnergyThreshold {ENERGY_THRESHOLD} MeV\n"
     content += "/Generator/Decay0Interface/Ba136FinalState 0.\n"
     content += f"/Generator/Decay0Interface/region {evt_source_str}\n"
 
   # Backgrounds
-  elif (evt_type == "Tl208") or (evt_type == "Bi214"):
+  elif (evt_type == "Tl208") or (evt_type == "Bi214") or (evt_type == "Cs137"):
 
     if   (evt_type == "Tl208"): Z, A = 81, 208
     elif (evt_type == "Bi214"): Z, A = 83, 214
+    elif (evt_type == "Cs137"): Z, A = 55, 137
 
-    content += f"/Generator/IonGun/atomic_number {Z}\n"
-    content += f"/Generator/IonGun/mass_number {A}\n"
-    content += f"/Generator/IonGun/region {evt_source_str}\n"
+    content += f"/Generator/IonGenerator/atomic_number {Z}\n"
+    content += f"/Generator/IonGenerator/mass_number {A}\n"
+    content += f"/Generator/IonGenerator/region {evt_source_str}\n"
 
   # Kr83
   elif evt_type == "Kr83":
@@ -233,7 +240,15 @@ def config_generator_str(det_name   : str,
 
 ###
 def config_actions_str(evt_type : str) -> str :
-  content = ""
+  if ((evt_type == "Xe136_bb0nu") or (evt_type == "Xe136_bb2nu") or
+      (evt_type == "Bi214")       or (evt_type == "Tl208")       or
+      (evt_type == "Cs137")       or
+      (evt_type == "Kr83")        or (evt_type == "e-")          or
+      (evt_type == "e+e-")):
+    content = f"/Actions/DefaultEventAction/energy_threshold {ENERGY_THRESHOLD} MeV\n"
+  else:
+    content = ''
+
   return content
 
 
@@ -247,7 +262,6 @@ def config_physics_str(sim_mode : str) -> str :
     content  += f"/PhysicsList/Nexus/clustering          {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/drift               {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/electroluminescence {opt_procs}\n"
-    content  +=  "/process/optical/processActivation Cerenkov false \n"
 
   else:
     opt_procs = True
