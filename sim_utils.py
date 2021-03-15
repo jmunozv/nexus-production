@@ -242,8 +242,7 @@ def config_generator_str(det_name   : str,
 def config_actions_str(evt_type : str) -> str :
   if ((evt_type == "Xe136_bb0nu") or (evt_type == "Xe136_bb2nu") or
       (evt_type == "Bi214")       or (evt_type == "Tl208")       or
-      (evt_type == "Cs137")       or
-      (evt_type == "Kr83")        or (evt_type == "e-")          or
+      (evt_type == "Cs137")       or (evt_type == "e-")          or
       (evt_type == "e+e-")):
     content = f"/Actions/DefaultEventAction/energy_threshold {ENERGY_THRESHOLD} MeV\n"
   else:
