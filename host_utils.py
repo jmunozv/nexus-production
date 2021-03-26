@@ -78,7 +78,7 @@ def make_harvard_script(script_fname : str,
 
   content += "#SBATCH -n 1            # Number of cores requested\n"
   content += "#SBATCH -N 1            # Ensure that all cores are on one machine\n"
-  content += "#SBATCH -t 2000         # Runtime in minutes\n"
+  content += "#SBATCH -t 2500         # Runtime in minutes\n"
   content += "#SBATCH -p guenette     # Partition to submit to\n"
   content += "#SBATCH --mem=1000      # Memory per cpu in MB (see also –mem-per-cpu)\n"
   content += "#SBATCH -o tmp/%j.out   # Standard out goes to this file\n"
