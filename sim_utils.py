@@ -253,7 +253,8 @@ def config_actions_str(evt_type : str) -> str :
 
 
 ###
-def config_physics_str(sim_mode : str) -> str :
+def config_physics_str(sim_mode : str,
+                       geom_str : str) -> str :
   content = ""
 
   if sim_mode == "fast":
@@ -265,10 +266,14 @@ def config_physics_str(sim_mode : str) -> str :
   else:
     opt_procs = True
     content  += f"/process/optical/scintillation/setTrackSecondariesFirst {opt_procs}\n"
+    content  +=  "/process/optical/processActivation Cerenkov             false \n\n"
     content  += f"/PhysicsList/Nexus/clustering          {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/drift               {opt_procs}\n"
     content  += f"/PhysicsList/Nexus/electroluminescence {opt_procs}\n"
-    content  +=  "/process/optical/processActivation Cerenkov false \n"
+
+    # Switching on the Photoelectric effect
+    if 'photoe_prob' in geom_str:
+      content  += f"/PhysicsList/Nexus/photoelectric       true\n"
 
   return content
 
@@ -287,14 +292,16 @@ def make_config_file(det_name      : str,
   if get_host_name() == "harvard":
     dst_fname = give_tmp_harvard_path(dst_fname)
 
+  geometry_str = config_geometry_str(det_name)
+
   content = f'''### GEOMETRY
-{config_geometry_str(det_name)}
+{geometry_str}
 ### GENERATOR
 {config_generator_str(det_name, evt_type, evt_source)}
 ### ACTIONS
 {config_actions_str(evt_type)}
 ### PHYSICS
-{config_physics_str(sim_mode)}
+{config_physics_str(sim_mode, geometry_str)}
 ### VERBOSITIES
 /control/verbose   0
 /run/verbose       0
